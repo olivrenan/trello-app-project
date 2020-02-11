@@ -1,6 +1,11 @@
 import React from "react";
 import { withRouter } from "react-router";
 
+import {
+  getYoutubeVideos,
+  getGoogle
+} from "../../controller/youtubeController";
+
 const App = () => {
   return (
     <div className="app">
@@ -12,6 +17,10 @@ const App = () => {
           </h3>
         </div>
         <div className="searchbar">Search</div>
+        <button onClick={() => getYoutubeVideos("coding")}>
+          Youtube search
+        </button>
+        <button onClick={() => getGoogle()}>Google</button>
       </header>
       <main>Content</main>
     </div>

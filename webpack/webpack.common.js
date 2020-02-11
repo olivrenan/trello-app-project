@@ -1,7 +1,8 @@
-const { ProgressPlugin } = require("webpack");
+const { ProgressPlugin, DefinePlugin } = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const commonPaths = require("./paths");
+const { PORT } = require("../config");
 
 module.exports = {
   entry: {
@@ -66,5 +67,13 @@ module.exports = {
       }
     ]
   },
-  plugins: [new ProgressPlugin(), new CleanWebpackPlugin()]
+  plugins: [
+    new DefinePlugin({
+      "process.env": {
+        PORT: JSON.stringify(PORT)
+      }
+    }),
+    new ProgressPlugin(),
+    new CleanWebpackPlugin()
+  ]
 };
