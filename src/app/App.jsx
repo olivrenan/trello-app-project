@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router";
 
-import {
-  getYoutubeVideos,
-  getGoogle
-} from "../../controller/youtubeController";
+import { getYoutubeVideos } from "../../controller/youtubeController";
 
 const App = () => {
+  const [dataAPI, setDataAPI] = useState();
+  const [titles, setTitles] = useState();
+
+  useEffect(() => {
+    const videosTitles = [];
+
+    for (let i = 0; i < dataAPI?.data.items.length; i++) {
+      videosTitles.push(dataAPI?.data.items[i].snippet.title);
+    }
+
+    setTitles(videosTitles);
+  }, [dataAPI]);
+
   return (
     <div className="app">
       <header>
@@ -17,12 +27,13 @@ const App = () => {
           </h3>
         </div>
         <div className="searchbar">Search</div>
-        <button onClick={() => getYoutubeVideos("coding")}>
+        <button
+          onClick={async () => setDataAPI(await getYoutubeVideos("coding"))}
+        >
           Youtube search
         </button>
-        <button onClick={() => getGoogle()}>Google</button>
       </header>
-      <main>Content</main>
+      <main>Content : {titles?.join(", ")}</main>
     </div>
   );
 };

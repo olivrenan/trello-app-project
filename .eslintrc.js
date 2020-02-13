@@ -77,6 +77,7 @@ module.exports = {
     "no-underscore-dangle": "off",
     "no-shadow": "off",
     "no-param-reassign": "off",
+    "no-plusplus": "off",
     eqeqeq: "off"
   },
   globals: {

@@ -10,10 +10,11 @@ module.exports = {
   },
   resolve: {
     modules: [
+      commonPaths.controllerPath,
       commonPaths.node_modules,
       commonPaths.sourceApp,
-      commonPaths.sourceStyles,
-      commonPaths.sourceImages
+      commonPaths.sourceImages,
+      commonPaths.sourceStyles
     ],
     extensions: ["*", ".js", ".jsx"]
   },
