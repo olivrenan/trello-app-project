@@ -11,9 +11,11 @@ export const getVideosByTopic = async (searchTopic, searchOrder) => {
         key: KEY,
         part: PART,
         q: searchTopic,
-        oder: searchOrder
+        oder: searchOrder,
+        maxResults: 20
       }
     });
+
     return result;
   } catch (error) {
     console.log("Error from getVideosByTopic", error);
