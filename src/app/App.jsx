@@ -42,6 +42,22 @@ const App = () => {
     });
   };
 
+  const RenderRadioButton = ({ id }) => {
+    return (
+      <div className="radio-button">
+        <input
+          type="radio"
+          name="order"
+          id={id}
+          value={id}
+          checked={radioCheck == id}
+          onChange={e => setRadioCheck(e.target.value)}
+        />
+        <label htmlFor={id}>{`${id}`}</label>
+      </div>
+    );
+  };
+
   return (
     <div className="app">
       <header>
@@ -60,50 +76,11 @@ const App = () => {
             value={search}
             onChange={event => setSearch(event.target.value)}
           />
-          <div className="radio-button">
-            <input
-              type="radio"
-              name="order"
-              id="date"
-              value="date"
-              checked={radioCheck == "date"}
-              onChange={e => setRadioCheck(e.target.value)}
-            />
-            <label htmlFor="date">Date</label>
-          </div>
-          <div className="radio-button">
-            <input
-              type="radio"
-              name="order"
-              id="rating"
-              value="rating"
-              checked={radioCheck == "rating"}
-              onChange={e => setRadioCheck(e.target.value)}
-            />
-            <label htmlFor="rating">Rating</label>
-          </div>
-          <div className="radio-button">
-            <input
-              type="radio"
-              name="order"
-              id="relevance"
-              value="relevance"
-              checked={radioCheck == "relevance"}
-              onChange={e => setRadioCheck(e.target.value)}
-            />
-            <label htmlFor="relevance">Relevance</label>
-          </div>
-          <div className="radio-button">
-            <input
-              type="radio"
-              name="order"
-              id="title"
-              value="title"
-              checked={radioCheck == "title"}
-              onChange={e => setRadioCheck(e.target.value)}
-            />
-            <label htmlFor="title">Title</label>
-          </div>
+
+          <RenderRadioButton id="date" />
+          <RenderRadioButton id="rating" />
+          <RenderRadioButton id="relevance" />
+          <RenderRadioButton id="title" />
 
           <button
             onClick={async () =>
