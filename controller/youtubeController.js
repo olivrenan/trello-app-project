@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { URL, PART, KEY } from "../config/index";
 
-export const getYoutubeVideos = async searchTopic => {
+export const getVideosByTopic = async (searchTopic, searchOrder) => {
   try {
     const result = await axios({
       method: "get",
@@ -10,11 +10,12 @@ export const getYoutubeVideos = async searchTopic => {
       params: {
         key: KEY,
         part: PART,
-        q: searchTopic
+        q: searchTopic,
+        oder: searchOrder
       }
     });
     return result;
   } catch (error) {
-    console.log("Error from getYoutubeVideos", error);
+    console.log("Error from getVideosByTopic", error);
   }
 };

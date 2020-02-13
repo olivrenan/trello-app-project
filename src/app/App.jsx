@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router";
 
-import { getYoutubeVideos } from "../../controller/youtubeController";
+import { getVideosByTopic } from "../../controller/youtubeController";
 
 const App = () => {
   const [dataAPI, setDataAPI] = useState();
@@ -17,6 +17,20 @@ const App = () => {
     setTitles(videosTitles);
   }, [dataAPI]);
 
+  const RenderVideos = () => {
+    if (!titles) {
+      return null;
+    }
+
+    return titles.map((element, index) => {
+      return (
+        <div className="video" key={index}>
+          {element}
+        </div>
+      );
+    });
+  };
+
   return (
     <div className="app">
       <header>
@@ -28,12 +42,16 @@ const App = () => {
         </div>
         <div className="searchbar">Search</div>
         <button
-          onClick={async () => setDataAPI(await getYoutubeVideos("coding"))}
+          onClick={async () =>
+            setDataAPI(await getVideosByTopic("coding", "rating"))
+          }
         >
           Youtube search
         </button>
       </header>
-      <main>Content : {titles?.join(", ")}</main>
+      <main>
+        <RenderVideos />
+      </main>
     </div>
   );
 };
