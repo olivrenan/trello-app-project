@@ -10,10 +10,8 @@ module.exports = {
   },
   resolve: {
     modules: [
-      commonPaths.controllerPath,
       commonPaths.node_modules,
       commonPaths.sourceApp,
-      commonPaths.sourceImages,
       commonPaths.sourceStyles
     ],
     extensions: ["*", ".js", ".jsx"]
@@ -52,19 +50,6 @@ module.exports = {
             outputPath: commonPaths.outputFontsFolder
           }
         }
-      },
-      {
-        test: /\.(png|jpg|gif|svg|ico)$/,
-        exclude: /node_modules/,
-        include: commonPaths.sourceImages,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "./images/[name].[ext]"
-            }
-          }
-        ]
       }
     ]
   },

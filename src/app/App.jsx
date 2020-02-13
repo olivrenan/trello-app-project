@@ -7,7 +7,8 @@ const App = () => {
   const [dataAPI, setDataAPI] = useState();
   const [titles, setTitles] = useState();
   const [images, setImages] = useState();
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState("");
+  const [radioCheck, setRadioCheck] = useState("date");
 
   useEffect(() => {
     const videosTitles = [];
@@ -21,11 +22,6 @@ const App = () => {
     setTitles(videosTitles);
     setImages(videosImages);
   }, [dataAPI]);
-
-  const handleSearch = event => {
-    setSearch(event.target.value);
-    console.log(search);
-  };
 
   const RenderVideos = () => {
     if (!titles) {
@@ -62,11 +58,56 @@ const App = () => {
             id="search"
             name="search"
             value={search}
-            onChange={handleSearch}
+            onChange={event => setSearch(event.target.value)}
           />
+          <div className="radio-button">
+            <input
+              type="radio"
+              name="order"
+              id="date"
+              value="date"
+              checked={radioCheck == "date"}
+              onChange={e => setRadioCheck(e.target.value)}
+            />
+            <label htmlFor="date">Date</label>
+          </div>
+          <div className="radio-button">
+            <input
+              type="radio"
+              name="order"
+              id="rating"
+              value="rating"
+              checked={radioCheck == "rating"}
+              onChange={e => setRadioCheck(e.target.value)}
+            />
+            <label htmlFor="rating">Rating</label>
+          </div>
+          <div className="radio-button">
+            <input
+              type="radio"
+              name="order"
+              id="relevance"
+              value="relevance"
+              checked={radioCheck == "relevance"}
+              onChange={e => setRadioCheck(e.target.value)}
+            />
+            <label htmlFor="relevance">Relevance</label>
+          </div>
+          <div className="radio-button">
+            <input
+              type="radio"
+              name="order"
+              id="title"
+              value="title"
+              checked={radioCheck == "title"}
+              onChange={e => setRadioCheck(e.target.value)}
+            />
+            <label htmlFor="title">Title</label>
+          </div>
+
           <button
             onClick={async () =>
-              setDataAPI(await getVideosByTopic(search, "rating"))
+              setDataAPI(await getVideosByTopic(search, radioCheck))
             }
           >
             Youtube search
