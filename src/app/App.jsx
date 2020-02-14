@@ -23,7 +23,7 @@ const App = () => {
     setImages(videosImages);
   }, [dataAPI]);
 
-  const RenderVideos = () => {
+  const Videos = () => {
     if (!titles) {
       return null;
     }
@@ -42,7 +42,7 @@ const App = () => {
     });
   };
 
-  const RenderRadioButton = ({ id }) => {
+  const RadioButton = ({ id }) => {
     return (
       <div className="radio-button">
         <input
@@ -77,10 +77,10 @@ const App = () => {
             onChange={event => setSearch(event.target.value)}
           />
 
-          <RenderRadioButton id="date" />
-          <RenderRadioButton id="rating" />
-          <RenderRadioButton id="relevance" />
-          <RenderRadioButton id="title" />
+          <RadioButton id="date" />
+          <RadioButton id="rating" />
+          <RadioButton id="relevance" />
+          <RadioButton id="title" />
 
           <button
             onClick={async () =>
@@ -92,7 +92,7 @@ const App = () => {
         </div>
       </header>
       <main>
-        <RenderVideos />
+        <Videos />
       </main>
     </div>
   );
