@@ -1,6 +1,8 @@
 import { Slate, Editable, withReact } from "slate-react";
-import { createEditor, Transforms, Editor } from "slate";
+import { createEditor } from "slate";
 import React, { useState, useMemo, useCallback } from "react";
+
+import CustomEditor from "../helpers/CustomEditor";
 
 const TextEditor = () => {
   const editor = useMemo(() => withReact(createEditor()), []);
@@ -27,61 +29,6 @@ const TextEditor = () => {
     return <Leaf {...props} />;
   }, []);
 
-  const CustomEditor = {
-    isBoldMarkActive(editor) {
-      const [match] = Editor.nodes(editor, {
-        match: n => n.bold == true,
-        universal: true
-      });
-
-      return !!match;
-    },
-
-    isItalicMarkActive(editor) {
-      const [match] = Editor.nodes(editor, {
-        match: n => n.italic == true,
-        universal: true
-      });
-
-      return !!match;
-    },
-
-    isCodeBlockActive(editor) {
-      const [match] = Editor.nodes(editor, {
-        match: n => n.type === "code"
-      });
-
-      return !!match;
-    },
-
-    toggleBoldMark(editor) {
-      const isActive = CustomEditor.isBoldMarkActive(editor);
-      Transforms.setNodes(
-        editor,
-        { bold: isActive ? null : true },
-        { match: n => () => Text.isText(n), split: true }
-      );
-    },
-
-    toggleItalicMark(editor) {
-      const isActive = CustomEditor.isItalicMarkActive(editor);
-      Transforms.setNodes(
-        editor,
-        { italic: isActive ? null : true },
-        { match: n => () => Text.isText(n), split: true }
-      );
-    },
-
-    toggleCodeBlock(editor) {
-      const isActive = CustomEditor.isCodeBlockActive(editor);
-      Transforms.setNodes(
-        editor,
-        { type: isActive ? null : "code" },
-        { match: n => Editor.isBlock(editor, n) }
-      );
-    }
-  };
-
   const keyDownHandler = event => {
     if (!event.ctrlKey) {
       return;
@@ -102,6 +49,20 @@ const TextEditor = () => {
     }
   };
 
+  const Button = ({ mouseDownHandler, classTag, content }) => {
+    return (
+      <button
+        className={`button--${classTag}`}
+        onMouseDown={e => {
+          e.preventDefault();
+          mouseDownHandler(editor);
+        }}
+      >
+        {content}
+      </button>
+    );
+  };
+
   return (
     <Slate
       editor={editor}
@@ -114,32 +75,21 @@ const TextEditor = () => {
     >
       <div className="slate">
         <div className="buttons">
-          <button
-            className="button--bold"
-            onMouseDown={e => {
-              e.preventDefault();
-              CustomEditor.toggleBoldMark(editor);
-            }}
-          >
-            B
-          </button>
-          <button
-            onMouseDown={e => {
-              e.preventDefault();
-              CustomEditor.toggleCodeBlock(editor);
-            }}
-          >
-            {"<>"}
-          </button>
-          <button
-            className="button--italic"
-            onMouseDown={e => {
-              e.preventDefault();
-              CustomEditor.toggleItalicMark(editor);
-            }}
-          >
-            I
-          </button>
+          <Button
+            classTag="bold"
+            mouseDownHandler={CustomEditor.toggleBoldMark}
+            content="B"
+          />
+          <Button
+            classTag="code"
+            mouseDownHandler={CustomEditor.toggleCodeBlock}
+            content="<>"
+          />
+          <Button
+            classTag="italic"
+            mouseDownHandler={CustomEditor.toggleItalicMark}
+            content="I"
+          />
         </div>
         <Editable
           className="text-editor"
