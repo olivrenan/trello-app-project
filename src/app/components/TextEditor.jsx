@@ -94,30 +94,32 @@ const TextEditor = () => {
         localStorage.setItem("content", content);
       }}
     >
-      <div className="buttons">
-        <button
-          onMouseDown={e => {
-            e.preventDefault();
-            CustomEditor.toggleBoldMark(editor);
-          }}
-        >
-          Bold
-        </button>
-        <button
-          onMouseDown={e => {
-            e.preventDefault();
-            CustomEditor.toggleCodeBlock(editor);
-          }}
-        >
-          Code Block
-        </button>
+      <div className="slate">
+        <div className="buttons">
+          <button
+            onMouseDown={e => {
+              e.preventDefault();
+              CustomEditor.toggleBoldMark(editor);
+            }}
+          >
+            Bold
+          </button>
+          <button
+            onMouseDown={e => {
+              e.preventDefault();
+              CustomEditor.toggleCodeBlock(editor);
+            }}
+          >
+            Code Block
+          </button>
+        </div>
+        <Editable
+          className="text-editor"
+          renderElement={renderElement}
+          renderLeaf={renderLeaf}
+          onKeyDown={e => keyDownHandler(e)}
+        />
       </div>
-      <Editable
-        className="text-editor"
-        renderElement={renderElement}
-        renderLeaf={renderLeaf}
-        onKeyDown={e => keyDownHandler(e)}
-      />
     </Slate>
   );
 };
