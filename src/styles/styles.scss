@@ -1,3 +1,12 @@
+$light-grey: lighten(
+  $color: #000000,
+  $amount: 40%
+);
+$dark-grey: lighten(
+  $color: #000000,
+  $amount: 80%
+);
+
 *,
 *::after,
 *::before {
@@ -24,16 +33,16 @@ body {
   align-items: center;
   padding: 10rem;
   height: 100vh;
-  background-color: lighten($color: #000000, $amount: 80%);
+  background-color: $dark-grey;
 
   .slate {
     width: 50%;
-    border: 2px solid lighten($color: #000000, $amount: 40%);
+    border: 2px solid $light-grey;
     border-radius: 8px;
   }
 
   .buttons {
-    background-color: lighten($color: #000000, $amount: 40%);
+    background-color: $light-grey;
     padding: 0.5rem 0;
 
     button {
