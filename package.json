@@ -17,10 +17,10 @@
     "dotenv": "^8.2.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
-    "redux": "^4.0.5"
+    "slate": "^0.57.1",
+    "slate-react": "^0.57.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
