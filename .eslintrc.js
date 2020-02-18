@@ -62,6 +62,7 @@ module.exports = {
     "react/jsx-key": "error",
     "react/jsx-wrap-multilines": ["warn"],
     "react/jsx-indent-props": "off",
+    "react/jsx-props-no-spreading": "off",
     "react/button-has-type": "off",
     "react/jsx-handler-names": "off",
     "no-trailing-spaces": [2, { skipBlankLines: true }],
