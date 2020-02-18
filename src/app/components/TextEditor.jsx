@@ -37,15 +37,6 @@ const TextEditor = () => {
       return !!match;
     },
 
-    isItalicMarkActive(editor) {
-      const [match] = Editor.nodes(editor, {
-        match: n => n.italic == true,
-        universal: true
-      });
-
-      return !!match;
-    },
-
     isCodeBlockActive(editor) {
       const [match] = Editor.nodes(editor, {
         match: n => n.type === "code"
@@ -59,15 +50,6 @@ const TextEditor = () => {
       Transforms.setNodes(
         editor,
         { bold: isActive ? null : true },
-        { match: n => () => Text.isText(n), split: true }
-      );
-    },
-
-    toggleItalicMark(editor) {
-      const isActive = CustomEditor.isItalicMarkActive(editor);
-      Transforms.setNodes(
-        editor,
-        { italic: isActive ? null : true },
         { match: n => () => Text.isText(n), split: true }
       );
     },
@@ -115,13 +97,12 @@ const TextEditor = () => {
       <div className="slate">
         <div className="buttons">
           <button
-            className="button--bold"
             onMouseDown={e => {
               e.preventDefault();
               CustomEditor.toggleBoldMark(editor);
             }}
           >
-            B
+            Bold
           </button>
           <button
             onMouseDown={e => {
@@ -129,16 +110,7 @@ const TextEditor = () => {
               CustomEditor.toggleCodeBlock(editor);
             }}
           >
-            {"<>"}
-          </button>
-          <button
-            className="button--italic"
-            onMouseDown={e => {
-              e.preventDefault();
-              CustomEditor.toggleItalicMark(editor);
-            }}
-          >
-            I
+            Code Block
           </button>
         </div>
         <Editable
@@ -168,10 +140,7 @@ const Leaf = props => {
   return (
     <span
       {...props.attributes}
-      style={{
-        fontWeight: props.leaf.bold ? "bold" : "normal",
-        fontStyle: props.leaf.italic ? "italic" : "normal"
-      }}
+      style={{ fontWeight: props.leaf.bold ? "bold" : "normal" }}
     >
       {props.children}
     </span>
