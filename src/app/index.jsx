@@ -1,14 +1,18 @@
-import React from "react";
-import { render } from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
+import { Provider } from "react-redux";
+import { render } from "react-dom";
+import React from "react";
 
-import App from "./App";
 import "../styles/styles.scss";
+import App from "./App";
+import store from "./store";
 
 const renderApp = () => {
   render(
     <Router>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </Router>,
     document.getElementById("root")
   );

@@ -1,7 +1,7 @@
-import { Editable, Slate, useSlate, withReact } from "slate-react";
+import { connect } from "react-redux";
 import { createEditor, Editor, Transforms } from "slate";
+import { Editable, Slate, useSlate, withReact } from "slate-react";
 import { withHistory } from "slate-history";
-import { withRouter } from "react-router";
 import isHotkey from "is-hotkey";
 import React, { useCallback, useMemo, useState } from "react";
 
@@ -16,47 +16,8 @@ const HOTKEYS = {
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
-const initialValue = [
-  {
-    type: "paragraph",
-    children: [
-      { text: "This is editable " },
-      { text: "rich", bold: true },
-      { text: " text, " },
-      { text: "much", italic: true },
-      { text: " better than a " },
-      { text: "<textarea>", code: true },
-      { text: "!" }
-    ]
-  },
-  {
-    type: "paragraph",
-    children: [
-      {
-        text:
-          "Since it's rich text, you can do things like turn a selection of text "
-      },
-      { text: "bold", bold: true },
-      {
-        text:
-          ", or add a semantically rendered block quote in the middle of the page, like this:"
-      }
-    ]
-  },
-  {
-    type: "block-quote",
-    children: [{ text: "A wise quote." }]
-  },
-  {
-    type: "paragraph",
-    children: [{ text: "Try it out for yourself!" }]
-  }
-];
-
-const App = () => {
-  const [value, setValue] = useState(
-    JSON.parse(localStorage.getItem("content")) || initialValue
-  );
+const App = ({ todos }) => {
+  const [value, setValue] = useState(todos);
   const renderElement = useCallback(props => <Element {...props} />, []);
   const renderLeaf = useCallback(props => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -82,11 +43,7 @@ const App = () => {
         <Slate
           editor={editor}
           value={value}
-          onChange={value => {
-            setValue(value);
-            const content = JSON.stringify(value);
-            localStorage.setItem("content", content);
-          }}
+          onChange={value => setValue(value)}
         >
           <Toolbar className="toolbar">
             <MarkButton format="bold" icon="format_bold" />
@@ -116,6 +73,7 @@ const App = () => {
               });
             }}
           />
+          <button className="action-button">Add</button>
         </Slate>
       </div>
     </div>
@@ -233,4 +191,8 @@ const Leaf = ({ attributes, children, leaf }) => {
   return <span {...attributes}>{children}</span>;
 };
 
-export default withRouter(App);
+const mapStateToProps = ({ todos }) => ({
+  todos
+});
+
+export default connect(mapStateToProps)(App);
