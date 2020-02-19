@@ -6,6 +6,7 @@ $dark-grey: lighten(
   $color: #000000,
   $amount: 80%
 );
+$light-border: 2px solid #ddd;
 
 *,
 *::after,
@@ -25,6 +26,7 @@ body {
   font-family: "Lato", sans-serif;
   font-weight: 400;
   line-height: 1.7;
+  margin: 0;
 }
 
 .app {
@@ -35,41 +37,59 @@ body {
   height: 100vh;
   padding: 10rem;
 
-  .slate {
+  .editor {
+    width: 80%;
+    background-color: #fff;
+    font-size: 1.4rem;
     border-radius: 8px;
-    border: 2px solid $light-grey;
-    width: 50%;
-  }
+    box-shadow: 3px 5px 10px 0px rgba(0, 0, 0, 0.5);
 
-  .buttons {
-    background-color: $light-grey;
-    padding: 0.5rem 0;
+    .toolbar {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      padding: 1rem 2rem;
+      padding-top: 1.4rem;
+      background-color: $light-grey;
 
-    button {
-      border-radius: 8px;
-      border-style: none;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0.5rem 1.6rem;
-      padding: 0.5rem 1rem;
-
-      &:hover {
-        background-color: #fff;
+      i {
+        margin-right: 1.2rem;
+        cursor: pointer;
       }
     }
 
-    .button--bold {
-      font-weight: bold;
+    &-text {
+      padding: 3rem;
     }
-    .button--italic {
+
+    [data-slate-editor] > * + * {
+      margin-top: 1em;
+    }
+
+    :not(pre) > code {
+      font-family: monospace;
+      background-color: #eee;
+      padding: 0.3rem;
+    }
+
+    blockquote {
+      border-left: $light-border;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 1rem;
+      color: #aaa;
       font-style: italic;
     }
-  }
 
-  .text-editor {
-    background-color: #fff;
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
-    font-size: 1.6rem;
-    padding: 2rem;
+    blockquote[dir="rtl"] {
+      border-left: none;
+      padding-left: 0;
+      padding-right: 1rem;
+      border-right: $light-border;
+    }
+
+    ol,
+    ul {
+      padding-left: 3.5rem;
+    }
   }
 }

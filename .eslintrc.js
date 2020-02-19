@@ -79,7 +79,8 @@ module.exports = {
     "no-shadow": "off",
     "no-param-reassign": "off",
     "no-plusplus": "off",
-    eqeqeq: "off"
+    "no-nested-ternary": "off",
+    "eqeqeq": "off"
   },
   globals: {
     React: true,

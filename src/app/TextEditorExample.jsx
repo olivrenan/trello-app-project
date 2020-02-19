@@ -2,9 +2,9 @@ import { Slate, Editable, withReact } from "slate-react";
 import { createEditor } from "slate";
 import React, { useState, useMemo, useCallback } from "react";
 
-import CustomEditor from "../helpers/CustomEditor";
+import CustomEditor from "./components";
 
-const TextEditor = () => {
+const TextEditorExample = () => {
   const editor = useMemo(() => withReact(createEditor()), []);
 
   const [value, setValue] = useState(
@@ -128,4 +128,4 @@ const Leaf = props => {
   );
 };
 
-export default TextEditor;
+export default TextEditorExample;
