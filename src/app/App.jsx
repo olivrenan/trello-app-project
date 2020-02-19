@@ -137,6 +137,21 @@ const toggleMark = (editor, format) => {
   }
 };
 
+const MarkButton = ({ format, icon }) => {
+  const editor = useSlate();
+  return (
+    <Button
+      active={isMarkActive(editor, format)}
+      onMouseDown={event => {
+        event.preventDefault();
+        toggleMark(editor, format);
+      }}
+    >
+      <Icon>{icon}</Icon>
+    </Button>
+  );
+};
+
 const isBlockActive = (editor, format) => {
   const [match] = Editor.nodes(editor, {
     match: n => n.type === format
@@ -162,6 +177,21 @@ const toggleBlock = (editor, format) => {
     const block = { type: format, children: [] };
     Transforms.wrapNodes(editor, block);
   }
+};
+
+const BlockButton = ({ format, icon }) => {
+  const editor = useSlate();
+  return (
+    <Button
+      active={isBlockActive(editor, format)}
+      onMouseDown={event => {
+        event.preventDefault();
+        toggleBlock(editor, format);
+      }}
+    >
+      <Icon>{icon}</Icon>
+    </Button>
+  );
 };
 
 const Element = ({ attributes, children, element }) => {
@@ -201,36 +231,6 @@ const Leaf = ({ attributes, children, leaf }) => {
   }
 
   return <span {...attributes}>{children}</span>;
-};
-
-const MarkButton = ({ format, icon }) => {
-  const editor = useSlate();
-  return (
-    <Button
-      active={isMarkActive(editor, format)}
-      onMouseDown={event => {
-        event.preventDefault();
-        toggleMark(editor, format);
-      }}
-    >
-      <Icon>{icon}</Icon>
-    </Button>
-  );
-};
-
-const BlockButton = ({ format, icon }) => {
-  const editor = useSlate();
-  return (
-    <Button
-      active={isBlockActive(editor, format)}
-      onMouseDown={event => {
-        event.preventDefault();
-        toggleBlock(editor, format);
-      }}
-    >
-      <Icon>{icon}</Icon>
-    </Button>
-  );
 };
 
 export default withRouter(App);
