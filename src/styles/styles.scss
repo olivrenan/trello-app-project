@@ -38,22 +38,22 @@ body {
   padding: 10rem;
 
   .editor {
-    width: 80%;
     background-color: #fff;
-    font-size: 1.4rem;
     border-radius: 8px;
     box-shadow: 3px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    font-size: 1.4rem;
+    width: 80%;
 
     .toolbar {
+      background-color: $light-grey;
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
-      padding: 1rem 2rem;
       padding-top: 1.4rem;
-      background-color: $light-grey;
+      padding: 1rem 2rem;
 
       i {
-        margin-right: 1.2rem;
         cursor: pointer;
+        margin-right: 1.2rem;
       }
     }
 
@@ -66,25 +66,25 @@ body {
     }
 
     :not(pre) > code {
-      font-family: monospace;
       background-color: #eee;
+      font-family: monospace;
       padding: 0.3rem;
     }
 
     blockquote {
       border-left: $light-border;
+      color: #aaa;
+      font-style: italic;
       margin-left: 0;
       margin-right: 0;
       padding-left: 1rem;
-      color: #aaa;
-      font-style: italic;
     }
 
     blockquote[dir="rtl"] {
       border-left: none;
+      border-right: $light-border;
       padding-left: 0;
       padding-right: 1rem;
-      border-right: $light-border;
     }
 
     ol,

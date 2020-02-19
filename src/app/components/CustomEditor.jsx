@@ -1,4 +1,4 @@
-import { Transforms, Editor } from "slate";
+import { Editor, Transforms } from "slate";
 
 const CustomEditor = {
   isBoldMarkActive(editor) {

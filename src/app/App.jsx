@@ -1,5 +1,5 @@
-import { Editable, withReact, useSlate, Slate } from "slate-react";
-import { Editor, Transforms, createEditor } from "slate";
+import { Editable, Slate, useSlate, withReact } from "slate-react";
+import { createEditor, Editor, Transforms } from "slate";
 import { withHistory } from "slate-history";
 import { withRouter } from "react-router";
 import isHotkey from "is-hotkey";
