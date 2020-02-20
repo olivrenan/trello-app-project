@@ -1,0 +1,9 @@
+$light-grey: lighten(
+  $color: #000000,
+  $amount: 40%
+);
+$dark-grey: lighten(
+  $color: #000000,
+  $amount: 80%
+);
+$light-border: 2px solid #ddd;
