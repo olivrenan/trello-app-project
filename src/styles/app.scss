@@ -1,70 +1,84 @@
 .app {
-  align-content: baseline;
   align-items: center;
-  background-color: $dark-grey;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  background-color: $dark-grey;
   min-height: 100vh;
 
-  .editor {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 3px 5px 10px 0px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    font-size: 1.4rem;
-    margin: 5rem 2rem;
-    width: fit-content;
-    max-width: 40%;
+  header {
+    margin-top: 2rem;
+    font-size: 2rem;
 
-    &-text {
-      padding: 3rem;
-    }
-
-    [data-slate-editor] > * + * {
-      margin-top: 1em;
-    }
-
-    :not(pre) > code {
-      background-color: #eee;
-      font-family: monospace;
-      padding: 0.3rem;
-    }
-
-    blockquote {
-      border-left: $light-border;
-      color: #aaa;
-      font-style: italic;
-      margin-left: 0;
-      margin-right: 0;
-      padding-left: 1rem;
-    }
-
-    blockquote[dir="rtl"] {
-      border-left: none;
-      border-right: $light-border;
-      padding-left: 0;
-      padding-right: 1rem;
-    }
-
-    ol,
-    ul {
-      padding-left: 3.5rem;
+    h1 {
+      font-kerning: 5px;
     }
   }
 
-  .action-button {
-    background-color: $light-grey;
-    border-radius: 20px;
-    border: none;
-    bottom: 10rem;
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-    color: #fff;
-    cursor: pointer;
-    padding: 0.8rem;
-    position: fixed;
-    right: 10rem;
-    z-index: 1000;
+  .content {
+    align-content: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .action-button {
+      background-color: $light-grey;
+      border-radius: 20px;
+      border: none;
+      bottom: 10rem;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+      color: #fff;
+      cursor: pointer;
+      padding: 0.8rem;
+      position: fixed;
+      right: 10rem;
+      z-index: 1000;
+    }
+  }
+}
+
+.editor {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0.3rem 0.5rem 1rem 0 rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  font-size: 1.4rem;
+  margin: 5rem 2rem;
+  width: fit-content;
+  max-width: 40%;
+
+  &-text {
+    padding: 3rem;
+  }
+
+  [data-slate-editor] > * + * {
+    margin-top: 1em;
+  }
+
+  :not(pre) > code {
+    background-color: #eee;
+    font-family: monospace;
+    padding: 0.3rem;
+  }
+
+  blockquote {
+    border-left: $light-border;
+    color: #aaa;
+    font-style: italic;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1rem;
+  }
+
+  blockquote[dir="rtl"] {
+    border-left: none;
+    border-right: $light-border;
+    padding-left: 0;
+    padding-right: 1rem;
+  }
+
+  ol,
+  ul {
+    padding-left: 3.5rem;
   }
 }

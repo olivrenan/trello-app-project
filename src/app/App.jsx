@@ -17,28 +17,33 @@ const App = ({ todos }) => {
 
   return (
     <div className="app">
-      <Modal
-        className="modal"
-        isOpen={modalIsOpen}
-        onRequestClose={() => setIsOpen(false)}
-      >
-        <EditorModal />
-      </Modal>
-      {todos.map((todo, index) => (
-        <div className="editor" key={index}>
-          <Slate editor={editor} value={todo}>
-            <Editable
-              readOnly
-              className="editor-text"
-              renderElement={renderElement}
-              renderLeaf={renderLeaf}
-            />
-          </Slate>
-        </div>
-      ))}
-      <button className="action-button" onClick={() => setIsOpen(true)}>
-        <i className="material-icons">add</i>
-      </button>
+      <header>
+        <h1>Todo App</h1>
+      </header>
+      <div className="content">
+        <Modal
+          className="modal"
+          isOpen={modalIsOpen}
+          onRequestClose={() => setIsOpen(false)}
+        >
+          <EditorModal />
+        </Modal>
+        {todos.map((todo, index) => (
+          <div className="editor" key={index}>
+            <Slate editor={editor} value={todo}>
+              <Editable
+                readOnly
+                className="editor-text"
+                renderElement={renderElement}
+                renderLeaf={renderLeaf}
+              />
+            </Slate>
+          </div>
+        ))}
+        <button className="action-button" onClick={() => setIsOpen(true)}>
+          <i className="material-icons">add</i>
+        </button>
+      </div>
     </div>
   );
 };
