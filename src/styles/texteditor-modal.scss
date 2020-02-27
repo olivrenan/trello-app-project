@@ -18,5 +18,14 @@
         margin-right: 1.2rem;
       }
     }
+
+    .add-button {
+      background-color: $light-grey;
+      border: none;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+      color: #fff;
+      cursor: pointer;
+      padding: 0.8rem;
+    }
   }
 }

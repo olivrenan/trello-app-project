@@ -3,7 +3,7 @@ import { createEditor } from "slate";
 import { Editable, Slate, withReact } from "slate-react";
 import { withHistory } from "slate-history";
 import Modal from "react-modal";
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
 import EditorModal from "./components/EditorModal";
 import Element from "./components/Element";
@@ -28,18 +28,20 @@ const App = ({ todos }) => {
         >
           <EditorModal />
         </Modal>
-        {todos.map((todo, index) => (
-          <div className="editor" key={index}>
-            <Slate editor={editor} value={todo}>
-              <Editable
-                readOnly
-                className="editor-text"
-                renderElement={renderElement}
-                renderLeaf={renderLeaf}
-              />
-            </Slate>
-          </div>
-        ))}
+        <div className="render-todos">
+          {todos.map((todo, index) => (
+            <div className="editor" key={index}>
+              <Slate editor={editor} value={todo}>
+                <Editable
+                  readOnly
+                  className="editor-text"
+                  renderElement={renderElement}
+                  renderLeaf={renderLeaf}
+                />
+              </Slate>
+            </div>
+          ))}
+        </div>
         <button className="action-button" onClick={() => setIsOpen(true)}>
           <i className="material-icons">add</i>
         </button>
