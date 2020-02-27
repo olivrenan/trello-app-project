@@ -3,7 +3,7 @@ import { createEditor, Editor, Transforms } from "slate";
 import { Editable, Slate, useSlate, withReact } from "slate-react";
 import { withHistory } from "slate-history";
 import isHotkey from "is-hotkey";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import Button from "./Button";
 import Element from "./Element";
@@ -24,12 +24,21 @@ const EditorModal = () => {
   const [value, setValue] = useState([
     {
       type: "paragraph",
-      children: [{ text: "Enter some rich text…" }]
+      children: [{ text: "Enter some text…" }]
     }
   ]);
+  const [isMounted, setIsMounted] = useState();
   const renderElement = useCallback(props => <Element {...props} />, []);
   const renderLeaf = useCallback(props => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+
+  useEffect(() => {
+    setIsMounted(true);
+
+    return () => {
+      setIsMounted(false);
+    };
+  }, []);
 
   const isMarkActive = (editor, format) => {
     const marks = Editor.marks(editor);
@@ -48,7 +57,11 @@ const EditorModal = () => {
 
   return (
     <div className="editor modal">
-      <Slate editor={editor} value={value} onChange={value => setValue(value)}>
+      <Slate
+        editor={editor}
+        value={value}
+        onChange={value => (isMounted ? setValue(value) : null)}
+      >
         <Toolbar className="toolbar">
           <MarkButton format="bold" icon="format_bold" />
           <MarkButton format="italic" icon="format_italic" />
@@ -76,6 +89,7 @@ const EditorModal = () => {
             });
           }}
         />
+        <button className="add-button">Add Note</button>
       </Slate>
     </div>
   );
