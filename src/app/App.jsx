@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import EditorModal from "./components/EditorModal";
 import RenderTodos from "./components/RenderTodos";
 
-const App = () => {
+const App = ({ todos }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   return (
@@ -19,9 +19,13 @@ const App = () => {
           isOpen={modalIsOpen}
           onRequestClose={() => setIsOpen(false)}
         >
-          <EditorModal />
+          <EditorModal handleClose={() => setIsOpen(false)} />
         </Modal>
-        <RenderTodos />
+        <div className="render-todos">
+          {todos.map((todo, index) => (
+            <RenderTodos todo={todo} key={index} />
+          ))}
+        </div>
         <button className="action-button" onClick={() => setIsOpen(true)}>
           <i className="material-icons">add</i>
         </button>

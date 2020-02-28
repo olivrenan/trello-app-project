@@ -1,3 +1,4 @@
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { createEditor, Editor, Transforms } from "slate";
 import { Editable, Slate, useSlate, withReact } from "slate-react";
@@ -5,6 +6,7 @@ import { withHistory } from "slate-history";
 import isHotkey from "is-hotkey";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
+import { addNewTodo } from "../store/actions";
 import Button from "./Button";
 import Element from "./Element";
 import Icon from "./Icon";
@@ -20,14 +22,14 @@ const HOTKEYS = {
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
-const EditorModal = () => {
+const EditorModal = ({ handleClose, addNewTodo }) => {
+  const [isMounted, setIsMounted] = useState();
   const [value, setValue] = useState([
     {
       type: "paragraph",
       children: [{ text: "Enter some text…" }]
     }
   ]);
-  const [isMounted, setIsMounted] = useState();
   const renderElement = useCallback(props => <Element {...props} />, []);
   const renderLeaf = useCallback(props => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -89,7 +91,15 @@ const EditorModal = () => {
             });
           }}
         />
-        <button className="add-button">Add Note</button>
+        <button
+          className="add-button"
+          onClick={() => {
+            addNewTodo(value);
+            handleClose();
+          }}
+        >
+          Add Note
+        </button>
       </Slate>
     </div>
   );
@@ -167,8 +177,7 @@ const BlockButton = ({ format, icon }) => {
   );
 };
 
-const mapStateToProps = ({ todos }) => ({
-  todos
-});
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ addNewTodo }, dispatch);
 
-export default connect(mapStateToProps)(EditorModal);
+export default connect(null, mapDispatchToProps)(EditorModal);
