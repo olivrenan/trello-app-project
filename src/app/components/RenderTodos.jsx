@@ -6,6 +6,7 @@ import React, { useCallback, useMemo } from "react";
 
 import Element from "./Element";
 import Leaf from "./Leaf";
+import Popover from "./Popover";
 
 const RenderTodos = ({ todos }) => {
   return (
@@ -19,6 +20,11 @@ const RenderTodos = ({ todos }) => {
         );
         return (
           <div className="editor" key={index}>
+            <Popover
+              icon="more_vert"
+              listChildren={["Edit", "Delete"]}
+              actionsArray={[]}
+            />
             <Slate editor={editor} value={todo}>
               <Editable
                 readOnly

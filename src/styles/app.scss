@@ -6,8 +6,9 @@
   min-height: 100vh;
 
   header {
-    margin: 3rem 0;
     font-size: 2rem;
+    margin: 3rem 0;
+    user-select: none;
 
     h1 {
       font-kerning: 5px;
@@ -33,6 +34,7 @@
       padding: 0.8rem;
       position: fixed;
       right: 10rem;
+      user-select: none;
       z-index: 1000;
     }
   }
@@ -42,9 +44,19 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0.3rem 0.5rem 1rem 0 rgba(0, 0, 0, 0.5);
-  display: grid;
+  display: inline-grid;
   font-size: 1.4rem;
   margin: 0rem 1rem 4rem 1rem;
+  transition: all 0.4s;
+
+  &:hover {
+    box-shadow: 0.6rem 1rem 1.2rem 0 rgba(0, 0, 0, 0.5);
+    transform: translateY(-0.1rem);
+
+    .options-icon {
+      visibility: visible;
+    }
+  }
 
   &-text {
     padding: 3rem;
