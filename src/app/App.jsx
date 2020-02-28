@@ -1,19 +1,12 @@
 import { connect } from "react-redux";
-import { createEditor } from "slate";
-import { Editable, Slate, withReact } from "slate-react";
-import { withHistory } from "slate-history";
 import Modal from "react-modal";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useState } from "react";
 
 import EditorModal from "./components/EditorModal";
-import Element from "./components/Element";
-import Leaf from "./components/Leaf";
+import RenderTodos from "./components/RenderTodos";
 
-const App = ({ todos }) => {
+const App = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const renderElement = useCallback(props => <Element {...props} />, []);
-  const renderLeaf = useCallback(props => <Leaf {...props} />, []);
-  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
   return (
     <div className="app">
@@ -28,20 +21,7 @@ const App = ({ todos }) => {
         >
           <EditorModal />
         </Modal>
-        <div className="render-todos">
-          {todos.map((todo, index) => (
-            <div className="editor" key={index}>
-              <Slate editor={editor} value={todo}>
-                <Editable
-                  readOnly
-                  className="editor-text"
-                  renderElement={renderElement}
-                  renderLeaf={renderLeaf}
-                />
-              </Slate>
-            </div>
-          ))}
-        </div>
+        <RenderTodos />
         <button className="action-button" onClick={() => setIsOpen(true)}>
           <i className="material-icons">add</i>
         </button>
