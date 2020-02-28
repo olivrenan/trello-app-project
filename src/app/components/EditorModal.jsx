@@ -1,26 +1,88 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { createEditor, Editor, Transforms } from "slate";
-import { Editable, Slate, useSlate, withReact } from "slate-react";
+import { Editable, Slate, withReact } from "slate-react";
+import { jsx } from "slate-hyperscript";
 import { withHistory } from "slate-history";
 import isHotkey from "is-hotkey";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import { addNewTodo } from "../store/actions";
-import Button from "./Button";
+import { ELEMENT_TAGS, HOTKEYS, TEXT_TAGS } from "../helpers/Keys";
+import { BlockButton, MarkButton } from "../helpers/Toggle";
 import Element from "./Element";
-import Icon from "./Icon";
 import Leaf from "./Leaf";
 import Toolbar from "./Toolbar";
 
-const HOTKEYS = {
-  "mod+b": "bold",
-  "mod+i": "italic",
-  "mod+u": "underline",
-  "mod+`": "code"
+export const deserialize = el => {
+  if (el.nodeType === 3) {
+    return el.textContent;
+  }
+  if (el.nodeType !== 1) {
+    return null;
+  }
+  if (el.nodeName === "BR") {
+    return "\n";
+  }
+
+  const { nodeName } = el;
+  let parent = el;
+
+  if (
+    nodeName === "PRE" &&
+    el.childNodes[0] &&
+    el.childNodes[0].nodeName === "CODE"
+  ) {
+    parent = [...el.childNodes[0]];
+  }
+
+  const children = Array.from(parent.childNodes)
+    .map(deserialize)
+    .flat();
+
+  if (el.nodeName === "BODY") {
+    return jsx("fragment", {}, children);
+  }
+
+  if (ELEMENT_TAGS[nodeName]) {
+    const attrs = ELEMENT_TAGS[nodeName](el);
+    return jsx("element", attrs, children);
+  }
+
+  if (TEXT_TAGS[nodeName]) {
+    const attrs = TEXT_TAGS[nodeName](el);
+    return children.map(child => jsx("text", attrs, child));
+  }
+
+  return children;
 };
 
-const LIST_TYPES = ["numbered-list", "bulleted-list"];
+const withHtml = editor => {
+  const { insertData, isInline, isVoid } = editor;
+
+  editor.isInline = element => {
+    return element.type === "link" ? true : isInline(element);
+  };
+
+  editor.isVoid = element => {
+    return element.type === "image" ? true : isVoid(element);
+  };
+
+  editor.insertData = data => {
+    const html = data.getData("text/html");
+
+    if (html) {
+      const parsed = new DOMParser().parseFromString(html, "text/html");
+      const fragment = deserialize(parsed.body);
+      Transforms.insertFragment(editor, fragment);
+      return;
+    }
+
+    insertData(data);
+  };
+
+  return editor;
+};
 
 const EditorModal = ({ handleClose, addNewTodo }) => {
   const [isMounted, setIsMounted] = useState();
@@ -32,7 +94,10 @@ const EditorModal = ({ handleClose, addNewTodo }) => {
   ]);
   const renderElement = useCallback(props => <Element {...props} />, []);
   const renderLeaf = useCallback(props => <Leaf {...props} />, []);
-  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const editor = useMemo(
+    () => withHtml(withReact(withHistory(createEditor()))),
+    []
+  );
 
   useEffect(() => {
     setIsMounted(true);
@@ -102,78 +167,6 @@ const EditorModal = ({ handleClose, addNewTodo }) => {
         </button>
       </Slate>
     </div>
-  );
-};
-
-const isMarkActive = (editor, format) => {
-  const marks = Editor.marks(editor);
-  return marks ? marks[format] === true : false;
-};
-
-const toggleMark = (editor, format) => {
-  const isActive = isMarkActive(editor, format);
-
-  if (isActive) {
-    Editor.removeMark(editor, format);
-  } else {
-    Editor.addMark(editor, format, true);
-  }
-};
-
-const MarkButton = ({ format, icon }) => {
-  const editor = useSlate();
-  return (
-    <Button
-      active={isMarkActive(editor, format)}
-      onMouseDown={event => {
-        event.preventDefault();
-        toggleMark(editor, format);
-      }}
-    >
-      <Icon>{icon}</Icon>
-    </Button>
-  );
-};
-
-const isBlockActive = (editor, format) => {
-  const [match] = Editor.nodes(editor, {
-    match: n => n.type === format
-  });
-
-  return !!match;
-};
-
-const toggleBlock = (editor, format) => {
-  const isActive = isBlockActive(editor, format);
-  const isList = LIST_TYPES.includes(format);
-
-  Transforms.unwrapNodes(editor, {
-    match: n => LIST_TYPES.includes(n.type),
-    split: true
-  });
-
-  Transforms.setNodes(editor, {
-    type: isActive ? "paragraph" : isList ? "list-item" : format
-  });
-
-  if (!isActive && isList) {
-    const block = { type: format, children: [] };
-    Transforms.wrapNodes(editor, block);
-  }
-};
-
-const BlockButton = ({ format, icon }) => {
-  const editor = useSlate();
-  return (
-    <Button
-      active={isBlockActive(editor, format)}
-      onMouseDown={event => {
-        event.preventDefault();
-        toggleBlock(editor, format);
-      }}
-    >
-      <Icon>{icon}</Icon>
-    </Button>
   );
 };
 
